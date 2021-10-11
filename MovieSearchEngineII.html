@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <style>
+       *{
+           padding: 0;
+           margin: 0;
+           text-decoration: none;
+           list-style: none;
+           box-sizing: border-box;
+     }   
+     body{
+         font-family: sans-serif;
+     }
+     nav
+     {
+         background: burlywood;
+         height: 80px;
+         width: 100%;
+         display: flex;
+     }
+     label.logo{
+         color: white;
+         font-size: 35px;
+         line-height: 80px;
+         font-weight: bold; 
+         padding: 10px;
+     }
+    ul{
+        display: flex;
+        flex-direction: row;
+        margin: auto;
+        gap: 8%;
+    }
+    select{
+        margin: 10px;
+    }
+
+   #MoviesList{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 50px;
+   }
+   #MoviesList img{
+      width: 45%;
+      height: auto;
+   }
+   #MoviesList div{
+      width: 50%;
+      text-align: center;
+      background: whitesmoke;
+   }
+   #MoviesList div div{
+     width: 90%;
+     margin:4%;
+     font-weight: 600;
+     text-align: justify; 
+   }
+    
+    
+    img:hover {
+  transform: scale(1.01);
+}
+    img{
+        width: 80%;
+        height: 100%;
+        transition: transform .2s
+    }
+    #slideShow{
+          width: 100%;
+          height: 400px;
+          margin: auto;
+          box-sizing: border-box;
+    }
+    #slideShow > img{
+          width: 100%;
+          height: 100%;
+          border-image: stretch;
+    }
+    #slideShow > img:hover{
+          transform:none
+    }
+    button{
+        margin: 20px;
+    }
+    input{
+        height: 20px;
+        margin-left: 50px;
+    }
+    a:hover{
+        color: black;
+    }
+     
+    /* Next & previous buttons */
+.
+/* Position the "next button" to the right */
+
+
+/* On hover, add a black background color with a little bit see-through */
+
+
+ </style>
+</head>
+<body>
+    
+  <nav>
+      <label for="" class="logo">$SPACE$MOVIES$</label>
+      <ul>
+          <li><a href="">Home</a></li>
+          <li><a href="">Services</a></li>
+          <li><a href="">FeedBack</a></li>
+      </ul>
+  </nav>
+
+ <h2>Search about any Movie</h2>
+ <input type="text" placeholder="Enter Movie Name" id="movieName">
+  <button onclick="search()">Search Movie</button>
+  <button onclick=""></button>
+  <div id= "MoviesList"></div>
+
+  <script>
+      var mov = document.getElementById('MoviesList');
+        function search()
+        {
+            mov.innerHTML =""
+            let movieName = document.getElementById("movieName").value;
+            fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=4a00954&t=${movieName}`).then(function(res)
+          {
+           return res.json();
+          }).then(function(res)
+          {
+           if(res.Response === "True")
+           {
+           showMovie(res)
+           }
+           else{
+            let image = document.createElement("img");
+   
+            image.src ="https://bitsofco.de/content/images/2018/12/broken-1.png"
+            let div = document.createElement("div")
+            div.textContent ="Information Not Found about this Movie"
+            div.style.fontSize = "large";
+            div.style.fontWeight = "bold";
+ 
+            mov.append(image, div);
+           }
+          })
+        }
+      
+     function showMovie(movieData)
+     {
+       let image = document.createElement("img");
+
+       image.src = movieData.Poster;
+       let div = document.createElement("div")
+        
+       mov.append(image, div);
+       
+      for(key in movieData)
+      {
+          if(key != "Poster" && key != "Response" && key != "Website" && key != "Ratings")
+          {
+              let element = document.createElement("div");
+
+              element.textContent = key +": " +movieData[key];
+              div.appendChild(element)
+          }
+      }
+       
+     }
+   
+  </script>
+</body>
+</html>
